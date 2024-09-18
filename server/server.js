@@ -4,12 +4,12 @@ const cors = require('cors');
 
 
 const app = express();
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'dramaticadb',
-    password: 'lZWQ9DR81FjopoI1',
+    user: 'root',
+    password: 'root',
     database: 'dramaticadb',
     port:3306
 });
@@ -24,13 +24,26 @@ app.listen(3001, () => {
 })
 
 
-app.get('/api/getPlays', (req, res) => {
-    const sql = "SELECT Title FROM works ORDER BY Title Asc"; 
-    db.query(sql, (err,result) => {
-          res.send(result);
+// app.get('/api/getPlays', (req, res) => {
+//     const sql = "SELECT Title FROM works ORDER BY Title Asc"; 
+//     db.query(sql, (err,result) => {
+//           res.send(result);
 
+//     });
+// }) 
+
+
+app.get('/api/getPlays', (req, res) => {
+    const sql = "SELECT Title FROM works ORDER BY Title ASC";
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error("Database query error:", err);
+            return res.status(500).send("Database query failed");
+        }
+        console.log("Query result:", result); // Log the result to see if any data is returned
+        res.send(result);
     });
-}) 
+});
 
 
 app.get('/api/getTranslatedPlays', (req, res) => {
@@ -67,18 +80,6 @@ app.get('/api/getGreekPlays2', (req, res) => {
     }); 
 }) 
 
-// app.post("/api/insert", (req,res) => {
-
-//     const movieName = req.body.movieName;
-//     const movieReview = req.body.movieReview; 
-
-//     const sqlInsert ="INSERT INTO movie_reviews (movieName, movieReview) VALUES (?,?)";
-//     db.query(sqlInsert, [movieName, movieReview], (err,result) => {
-//           console.log(result);
-//     });
-   
-   
-// });
 
 app.get('/api/getGreekChapters', (req, res) => {
     let id = req.query.id;
@@ -134,9 +135,10 @@ app.get('/api/getAllTexts', (req, res) => {
     let id = req.query.id;
     let id2 = req.query.id;
     let id3 = req.query.id2;
+    let id4 = req.query.id2;
     let act = req.query.act;
-    const sql="SELECT paragraphsgreek.Section,paragraphsgreek.Chapter,paragraphs.CharLine, characters.Abbrev, paragraphs.PlainText  AS 'EnText',paragraphsgreek.CharLine, Alias, paragraphsgreek.PlainText  AS 'GrText', chaptersgreek.Description AS 'GrTitle', chapters.Description AS 'EnTitle' FROM dramaticadb.paragraphsgreek INNER JOIN paragraphs ON paragraphsgreek.CharLine=paragraphs.CharLine INNER JOIN characters ON paragraphs.CharID=characters.CharID INNER JOIN charactersgreek ON paragraphsgreek.GreekCharID=charactersgreek.GreekCharID INNER JOIN chapters ON (chapters.Chapter=paragraphsgreek.Chapter AND chapters.Section=paragraphsgreek.Section) INNER JOIN chaptersgreek ON (chaptersgreek.Chapter=paragraphsgreek.Chapter AND chaptersgreek.Section=paragraphsgreek.Section) where paragraphsgreek.GreekWorkID=? AND chaptersgreek.GreekWorkID=? AND chapters.WorkID=? AND chaptersgreek.Section=?";
-    db.query(sql, [id,id2,id3,act],(err,result) => {
+    const sql="SELECT paragraphsgreek.Section,paragraphsgreek.Chapter,paragraphs.CharLine, characters.Abbrev, paragraphs.PlainText  AS 'EnText',paragraphsgreek.CharLine, Alias, paragraphsgreek.PlainText  AS 'GrText', chaptersgreek.Description AS 'GrTitle', chapters.Description AS 'EnTitle' FROM dramaticadb.paragraphsgreek INNER JOIN paragraphs ON paragraphsgreek.CharLine=paragraphs.CharLine INNER JOIN characters ON paragraphs.CharID=characters.CharID INNER JOIN charactersgreek ON paragraphsgreek.GreekCharID=charactersgreek.GreekCharID INNER JOIN chapters ON (chapters.Chapter=paragraphsgreek.Chapter AND chapters.Section=paragraphsgreek.Section) INNER JOIN chaptersgreek ON (chaptersgreek.Chapter=paragraphsgreek.Chapter AND chaptersgreek.Section=paragraphsgreek.Section) where paragraphsgreek.GreekWorkID=? AND chaptersgreek.GreekWorkID=? AND chapters.WorkID=? AND paragraphs.WorkID = ? AND chaptersgreek.Section=?";
+    db.query(sql, [id,id2,id3,id4,act],(err,result) => {
           res.send(result);
     });
 }) 

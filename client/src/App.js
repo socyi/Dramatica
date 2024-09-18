@@ -25,7 +25,6 @@ import FormData from 'form-data';
 
 const PlayGreekAll = () => {
 
-  console.log('aaa')
   const [greekChapters, setGreekChapters] = useState([]);
   const [greekCharacters, setGreekCharacters] = useState([]);
 
@@ -160,6 +159,8 @@ const PlayGreek = () => {
           <br></br>
 
           {greekChapters.map( (val,counter)=> {
+
+            console.log(val);   
             if (val.Section != tempSection){
                tempSection = val.Section;
               return <div className="" key={counter}> <br></br><div><Link className="link-3" to ={{
@@ -370,8 +371,6 @@ const TextGreek = () => {
   const [allTexts, setAllTexts] = useState([]);
   const [greekDescription, setGreekDescription] = useState([]);
 
-  // const [englishPage, setEnglishPage] = useState(1);
-
   const location = useLocation();
   const act = location.state.act;
   const chapter = location.state.chapter;
@@ -379,9 +378,7 @@ const TextGreek = () => {
   const id2 = location.state.id2;
   const totalActs = location.state.totalActs;
 
-  // let currentChapter=1;
-
- 
+  console.log("info = ", id, id2, act);
 
 
   useEffect(() => {
@@ -423,18 +420,21 @@ const TextGreek = () => {
 
   
   return (
+    
    <div> 
       <br></br>
       <br></br>
      <h4  className="chapterTitles">Πράξις {act}</h4>
+     
   
      <hr color= "#7a1818"></hr>
     <div class="container">
       {/* <div class="row"> */}
        
         {/* <div class="col-sm"> */}
-          
         {allTexts.map( (val,counter)=> {
+          
+          console.log(val);
            let textEn=val.EnText;
            textEn= textEn.replace(/\[p]/g, '\n');
            let textGr=val.GrText;
@@ -445,7 +445,7 @@ const TextGreek = () => {
             textGr="";
            }
          if (currentChapterEnglish==val.Chapter){
-             
+          
               return <div class="row"><div class = "col-sm"><div className="" key={counter}><span className="Abbrev">{val.Abbrev}:</span> {textEn}</div></div><div class = "col-sm"><div className="" key={counter}><span className="Abbrev">{aliasGr}</span> {textGr}</div></div></div>
           }
           else{
@@ -499,119 +499,6 @@ const TextGreek = () => {
   )
 }
 
-// const Plays = () => {
-
-//   const [playTitleList, setPlayTitleList] = useState([]);
-
-//    useEffect(() => {
-//     Axios.get('http://localhost:3001/api/getPlays').then((response) => {
-//       setPlayTitleList(response.data);  
-//     })
-//   }, []);
-  
-//   return (
-//   <div class="link-2"> 
-//     <h3 className="title-1">All Plays written by William Shakespeare</h3>
-//     <br></br>
-//     {playTitleList.map( (val,counter)=> {
-//     return <div className="playTitles" key={counter}><Link to = {{
-//       pathname: '/plays/play',
-//             state: { title:val.Title, id:val.WorkID}
-//            }}> {val.Title}</Link></div>
-//   })}
-  
-
-//    </div>
-//   )
-// }
-
-// const Play = () => {
-
-//   const location = useLocation();
-//   const title = location.state.title;
-//   const id=location.state.id;
-//   console.log(id)
-
-//   const [englishText, setEnglishText] = useState([]);
-
-//   useEffect(() => {
-//     Axios.get('http://localhost:3001/api/getEnglishText', {
-//       params: {
-//         id2:id,
-//       }
-//     })
-//     .then((response) => {
-//       setEnglishText(response.data);  
-//       console.log(response.data)
-//     })
-//   }, []);
-
-
-//   let chapterCount=5;
-
-
-//  let currentChapterGreek=0;
-//  let currentChapterEnglish=0;
-//   let i=1;
-//   let chapterFlag=false;
-
-  
-//   return (
-//    <div> 
-//       <br></br>
-//       <br></br>
-//      <h4  className="chapterTitles">Πράξις</h4>
-  
-//      <hr color= "#7a1818"></hr>
-//     <div class="container">
-//       {/* <div class="row"> */}
-       
-//         {/* <div class="col-sm"> */}
-          
-//         {englishText.map( (val,counter)=> {
-//            let textEn=val.PlainText;
-//            textEn= textEn.replace(/\[p]/g, '\n');
-
-//          if (currentChapterEnglish==val.Chapter){
-             
-//               return <div class="row"><div className="" key={counter}><span className="Abbrev">{val.Abbrev}:</span> {textEn}</div></div>
-//           }
-//           else{
-//             currentChapterEnglish++;
-//             if (currentChapterEnglish==1){
-//              let descrEn=val.EnTitle;
-//               descrEn= descrEn.replace(/&#8217;/g, '\'');
-//               return< div class="row">
-//                   <h4  className="chapterTitles-3"> Chapter {currentChapterEnglish}</h4>
-//                   <h4  className="chapterTitles-4" ><span>{descrEn}</span></h4>
-//                   <div className="" key={counter}><span className="Abbrev">{val.Abbrev}:</span> {textEn}</div>
-//                 <hr color= "#7a1818"></hr>
-//             </div>
-            
-//             }
-//             else{
-//               let descrEn=val.EnTitle;
-//               descrEn= descrEn.replace(/&#8217;/g, '\'');
-//             return< div class="row">
-//             <hr color= "#7a1818"></hr>
-//               <h4  className="chapterTitles-3"> Chapter {currentChapterEnglish}</h4>
-//               <h4 className="chapterTitles-4">{descrEn}</h4>
-//               <div className="" key={counter}><span className="Abbrev">{val.Abbrev}:</span> {textEn}</div>
-//             <hr color= "#7a1818"></hr>
-//             </div>
-//           }
-//           }
-//           }
-//         )}
-       
-//       <hr></hr>
-//     </div>
-//   </div>
-
-//   )
-  
-// }
-
 const TranslatedGreek = () => {
 
 
@@ -620,7 +507,6 @@ const TranslatedGreek = () => {
 
   const [selectedOption, setSelectedOption] = useState();
   const [selectedOptionTitle, setSelectedOptionTitle] = useState("-");
-  // const [greekPlayTitleList, setGreekPlayTitleList] = useState([]);
   const title="";
 
  let play;
@@ -644,13 +530,6 @@ const TranslatedGreek = () => {
   }, []);
 
 
-
-  //  useEffect(() => {
-  //   Axios.get('http://localhost:3001/api/getGreekPlays').then((response) => {
-  //     // console.log(1);
-  //     setGreekPlayTitleList(response.data);  
-  //   })
-  // }, []);
   return (
 
       <div> 
@@ -724,101 +603,107 @@ const TranslatedGreek = () => {
 }
 
 const Search = () => {
-  
-  
-  const [value, setValue] = useState(),
-  onInput = ({target:{value}}) => setValue(value),
-  onFormSubmit = e => {
-    e.preventDefault()
-    setValue()
-  }
- 
-  let empty=true;
+  const [value, setValue] = useState();
   const [searchedWord, setSearchedWord] = useState();
   const [searchResults, setSearchResults] = useState([]);
 
+  const onInput = ({ target: { value } }) => setValue(value);
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    setSearchedWord(value);
+  };
+
   useEffect(() => {
-    console.log(searchedWord)
-    Axios.get('http://localhost:3001/api/searchWord', {
-      params: {
-       word:searchedWord
-      }
-    })
-    .then((response) => {
-      setSearchResults(response.data); 
-      if (response.data.length===0){   
-        empty=true;
-      }
-      else{
-        empty=false;
-      }
-    })
-    
+    if (searchedWord) {
+      Axios.get('http://localhost:3001/api/searchWord', {
+        params: {
+          word: searchedWord,
+        },
+      }).then((response) => {
+        setSearchResults(response.data);
+      });
+    }
   }, [searchedWord]);
 
-
   return (
-    <div > 
+    <div>
       <div>
-    <h2 className="center3 pd-bottom">Search for a word </h2> 
-              <div className="center2">
-              <Form inline onSubmit={onFormSubmit}>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2 center4" onChange={onInput} value={value}/>
-              <Button onClick={ () => setSearchedWord(value)} variant="outline-info btn-secondary btn searchButton">Search</Button>
-    
-              </Form>
-              </div>
-              </div>
-           
-
-     <h2 className="center">Search Results for : {value}</h2> 
-
-
-     <table className="table mg-left">
-     <thead className="thBGColor" >
-      <tr>
-        <th className="thColor" scope="col">#</th>
-        <th className="thColor" scope="col">Title</th>
-        <th className="thColor" scope="col">Scene</th>
-        <th className="thColor" scope="col">Character</th>
-        <th className="thColor" scope="col">Text</th>
-      </tr>
-    </thead>
-    <tbody>
-      {searchResults.map( (val,counter)=> {
-        let translator="";
-        let text=val.PlainText;
-        let praksis = romanize(val.Section);
-        text= text.replace(/\[p]/g, '\n');
-     
-        if (val.Translator ===null){
-          translator="";
-        }
-        else{
-          translator="-"+val.Translator;
-        }
-        return <tr>
-          <th scope="row">{counter}</th>
-          <td>{val.Title}{translator}</td>
-          <td>{praksis},{val.Chapter}</td>
-          <td>{val.Char}</td>
-         
-          <td><div id="cell">{getHighlightedText(text,searchedWord)}</div></td>
-      
-        </tr>
-      }    
-    )}
-      </tbody>
-    </table>
-        
-
-
-
+        <h2 className="center3 pd-bottom">Search for a word </h2>
+        <div className="center2">
+          <Form inline onSubmit={onFormSubmit}>
+            <FormControl
+              type="text"
+              placeholder="Search"
+              className="mr-sm-2 center4"
+              onChange={onInput}
+              value={value}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  onFormSubmit(e);
+                }
+              }}
+            />
+            <Button
+              onClick={() => setSearchedWord(value)}
+              variant="outline-info btn-secondary btn searchButton"
+            >
+              Search
+            </Button>
+          </Form>
         </div>
-    )
+      </div>
 
-    
-}
+      <h2 className="center">Search Results for : {value}</h2>
+
+      <table className="table mg-left">
+        <thead className="thBGColor">
+          <tr>
+            <th className="thColor" scope="col">
+              #
+            </th>
+            <th className="thColor" scope="col">
+              Title
+            </th>
+            <th className="thColor" scope="col">
+              Scene
+            </th>
+            <th className="thColor" scope="col">
+              Character
+            </th>
+            <th className="thColor" scope="col">
+              Text
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchResults.map((val, counter) => {
+            let translator = '';
+            let text = val.PlainText;
+            let praksis = romanize(val.Section);
+            text = text.replace(/\[p]/g, '\n');
+
+            if (val.Translator === null) {
+              translator = '';
+            } else {
+              translator = '-' + val.Translator;
+            }
+            return (
+              <tr key={counter}>
+                <th scope="row">{counter}</th>
+                <td>{val.Title + translator}</td>
+                <td>{praksis + ',' + val.Chapter}</td>
+                <td>{val.Char}</td>
+                <td>
+                  <div id="cell">{getHighlightedText(text, searchedWord)}</div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 
 function romanize (num) {
@@ -834,280 +719,334 @@ function romanize (num) {
       roman = (key[+digits.pop() + (i * 10)] || "") + roman;
   return Array(+digits.join("") + 1).join("M") + roman;
 }
-const getHighlightedText = (text, highlight) => {
-  
-  const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-  return (<span>{parts.map(part => part.toLowerCase() === highlight.toLowerCase() ? <b className="highlight">{part}</b> : part)}</span>);
-}
+
+const getHighlightedText = (text = "", highlight = "") => {
+  if (!highlight) return text;
+
+  // Normalize the text and highlight term to remove accents
+  const normalizedText = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const normalizedHighlight = highlight.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  // Split the normalized text based on the normalized highlight term
+  const parts = normalizedText.split(new RegExp(`(${normalizedHighlight})`, 'gi'));
+
+  // Reconstruct the original text with highlights
+  let originalIndex = 0;
+  return (
+    <span>
+      {parts.map((part, index) => {
+        const originalPart = text.slice(originalIndex, originalIndex + part.length);
+        originalIndex += part.length;
+        return part && normalizedHighlight && part.toLowerCase() === normalizedHighlight.toLowerCase() ? 
+          <b key={index} className="highlight">{originalPart}</b> : 
+          originalPart;
+      })}
+    </span>
+  );
+};
 
 const AdvancedSearch = () => {
-
-  const [value, setValue] = useState(),
-  onInput = ({target:{value}}) => setValue(value),
-  onFormSubmit = e => {
-    e.preventDefault()
-    setValue()
-  }
-
-  let empty=true;
-
+  const [value, setValue] = useState();
   const [searchedWord, setSearchedWord] = useState();
-   const [searchResults, setSearchResults] = useState([]);
-
-
+  const [searchResults, setSearchResults] = useState([]);
 
   const [playTitleList, setPlayTitleList] = useState([]);
-  const [greekPlayTitleList, setGreekPlayTitleList] = useState([]);
   const [charList, setCharList] = useState([]);
   const [actList, setActList] = useState([]);
   const [sceneList, setSceneList] = useState([]);
 
+  const [selectedOption, setSelectedOption] = useState('all');
+  const [selectedOptionTitle, setSelectedOptionTitle] = useState('All Plays');
 
-  const [selectedOption, setSelectedOption] = useState("all");
-  const [selectedOptionTitle, setSelectedOptionTitle] = useState("All Plays");
-  
-  const [selectedOption2, setSelectedOption2] = useState("all");
-  const [selectedOptionCharacter, setSelectedOptionCharacter] = useState("All Characters");
+  const [selectedOption2, setSelectedOption2] = useState('all');
+  const [selectedOptionCharacter, setSelectedOptionCharacter] = useState('All Characters');
 
-  const [selectedOption3, setSelectedOption3] = useState("all");
-  const [selectedOptionAct, setSelectedOptionAct] = useState("All Acts");
+  const [selectedOption3, setSelectedOption3] = useState('all');
+  const [selectedOptionAct, setSelectedOptionAct] = useState('All Acts');
 
-  const [selectedOption4, setSelectedOption4] = useState("all");
-  const [selectedOptionScene, setSelectedOptionScene] = useState("All Scenes");
+  const [selectedOption4, setSelectedOption4] = useState('all');
+  const [selectedOptionScene, setSelectedOptionScene] = useState('All Scenes');
 
-  
-
-  // let play;
-  // useEffect(() => {
-    
-  //   Axios.get('http://localhost:3001/api/getTranslations', {
-  //     params: {
-  //       id:selectedOption
-  //     }
-  //   })
-  //   .then((response) => {
-  //     setGreekPlayTitleList(response.data);  
-  //   })
-    
-  // }, [selectedOption]);
+  const onInput = ({ target: { value } }) => setValue(value);
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    setSearchedWord(value);
+  };
 
   useEffect(() => {
-
     Axios.get('http://localhost:3001/api/searchWordAdvanced', {
       params: {
-       id:selectedOption,
-       charName:selectedOption2,
-       section:selectedOption3,
-       chapter:selectedOption4,
-       word:searchedWord
-      }
-    })
-    .then((response) => {
-      setSearchResults(response.data); 
-      console.log(response.data)
-    })
-    
-  }, [searchedWord,selectedOptionTitle,selectedOptionCharacter,selectedOptionScene,selectedOptionAct]);
-
-
+        id: selectedOption,
+        charName: selectedOption2,
+        section: selectedOption3,
+        chapter: selectedOption4,
+        word: searchedWord,
+      },
+    }).then((response) => {
+      setSearchResults(response.data);
+    });
+  }, [searchedWord, selectedOption, selectedOption2, selectedOption3, selectedOption4]);
 
   useEffect(() => {
     Axios.get('http://localhost:3001/api/getGreekPlays2').then((response) => {
-      setPlayTitleList(response.data);  
-    })
+      setPlayTitleList(response.data);
+    });
   }, []);
 
   useEffect(() => {
     Axios.get('http://localhost:3001/api/getCharacters').then((response) => {
-      setCharList(response.data);  
-    })
+      setCharList(response.data);
+    });
   }, []);
 
   useEffect(() => {
     Axios.get('http://localhost:3001/api/getActs').then((response) => {
-      setActList(response.data);  
-    })
+      setActList(response.data);
+    });
   }, []);
-
 
   useEffect(() => {
     Axios.get('http://localhost:3001/api/getScenes').then((response) => {
-      setSceneList(response.data);  
-    })
+      setSceneList(response.data);
+    });
   }, []);
 
-
   return (
-   <div> 
-     <div class="container">
-      <div class="row">
-        <h2 className="center3 pd-bottom">Advanced Search</h2> 
-      
-      </div>
-      <hr color= "#7a1818"></hr>
-
-      <div class="row">
-      <div class="col-sm-5"> 
- 
-     <Dropdown id="first" >
-        <Dropdown.Toggle id="dropdown-custom-1" className="btn btn-secondary dropdown3" >Select Play</Dropdown.Toggle>
-        <Dropdown.Menu className="dropdown1 ">
-        <Dropdown.Item className= 'playTitles' onClick={ () => {setSelectedOptionTitle("All Plays"); setSelectedOption("all")}}>All Plays</Dropdown.Item>
-      {playTitleList.map( (val,counter)=> {
-          let title=val.Title+"-"+val.Translator;
-          return <div>
-           
-            <Dropdown.Item className= 'playTitles' key={counter}  onClick={ () => {setSelectedOptionTitle(title); setSelectedOption(val.GreekWorkID)}}
-            >{val.Title} - {val.Translator}</Dropdown.Item> </div>
-           
-        })}
-        
-         </Dropdown.Menu>
-         </Dropdown>{' '}
-      
-         <div className="pd-left border1" id="second">
-         <span className="dropdown3 "> {selectedOptionTitle} </span>
+    <div>
+      <div className="container">
+        <div className="row">
+          <h2 className="center3 pd-bottom">Advanced Search</h2>
         </div>
-     
-         </div>
-         <div class="col-sm-5"> 
+        <hr color="#7a1818"></hr>
 
-         <Dropdown id="first" >
-        <Dropdown.Toggle id="dropdown-custom-1" className="btn btn-secondary dropdown3" >Select Character</Dropdown.Toggle>
-        <Dropdown.Menu className="dropdown1 ">
-        <Dropdown.Item className= 'playTitles' onClick={ () => {setSelectedOptionCharacter("All Characters"); setSelectedOption2("all")}}>All Characters</Dropdown.Item>
-
-      {charList.map( (val,counter)=> {
-        
-          return <div>
-           
-            <Dropdown.Item className= 'playTitles' key={counter}  onClick={ () => {setSelectedOptionCharacter(val.CharName); setSelectedOption2(val.CharID)}}
-            >{val.CharName}</Dropdown.Item> </div>
-           
-        })}
-        
-         </Dropdown.Menu>
-         </Dropdown>{' '}
-      
-         <div className="pd-left border1" id="second">
-         <span className="dropdown3  "> {selectedOptionCharacter} </span>
+        <div className="row">
+          <div className="col-sm-5">
+            <Dropdown id="first">
+              <Dropdown.Toggle id="dropdown-custom-1" className="btn btn-secondary dropdown3">
+                Select Play
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown1">
+                <Dropdown.Item
+                  className="playTitles"
+                  onClick={() => {
+                    setSelectedOptionTitle('All Plays');
+                    setSelectedOption('all');
+                  }}
+                >
+                  All Plays
+                </Dropdown.Item>
+                {playTitleList.map((val, counter) => {
+                  let title = val.Title + '-' + val.Translator;
+                  return (
+                    <div key={counter}>
+                      <Dropdown.Item
+                        className="playTitles"
+                        onClick={() => {
+                          setSelectedOptionTitle(title);
+                          setSelectedOption(val.GreekWorkID);
+                        }}
+                      >
+                        {val.Title} - {val.Translator}
+                      </Dropdown.Item>
+                    </div>
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>{' '}
+            <div className="pd-left border1" id="second">
+              <span className="dropdown3"> {selectedOptionTitle} </span>
+            </div>
+          </div>
+          <div className="col-sm-5">
+            <Dropdown id="first">
+              <Dropdown.Toggle id="dropdown-custom-1" className="btn btn-secondary dropdown3">
+                Select Character
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown1">
+                <Dropdown.Item
+                  className="playTitles"
+                  onClick={() => {
+                    setSelectedOptionCharacter('All Characters');
+                    setSelectedOption2('all');
+                  }}
+                >
+                  All Characters
+                </Dropdown.Item>
+                {charList.map((val, counter) => {
+                  return (
+                    <div key={counter}>
+                      <Dropdown.Item
+                        className="playTitles"
+                        onClick={() => {
+                          setSelectedOptionCharacter(val.CharName);
+                          setSelectedOption2(val.CharID);
+                        }}
+                      >
+                        {val.CharName}
+                      </Dropdown.Item>
+                    </div>
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>{' '}
+            <div className="pd-left border1" id="second">
+              <span className="dropdown3"> {selectedOptionCharacter} </span>
+            </div>
+          </div>
         </div>
-     
-
-         </div>
-      
-         </div>
         <br></br>
-         <div class="row">
-      <div class="col-sm-3"> 
- 
-     <Dropdown id="first" >
-        <Dropdown.Toggle id="dropdown-custom-1" className="btn btn-secondary dropdown3" >Select Act</Dropdown.Toggle>
-        <Dropdown.Menu className="dropdown1 ">
-        <Dropdown.Item className= 'playTitles' onClick={ () => {setSelectedOptionAct("All Acts"); setSelectedOption3("all")}}>All Acts</Dropdown.Item>
-      {actList.map( (val,counter)=> {
-        let praksis = romanize(val.Section);
-          return <div>
-           
-            <Dropdown.Item className= 'playTitles' key={counter}  onClick={ () => {setSelectedOptionAct(praksis); setSelectedOption3(praksis)}}
-            >{praksis}</Dropdown.Item> </div>
-           
-        })}
-        
-         </Dropdown.Menu>
-         </Dropdown>{' '}
-      
-         <div className="pd-left border1" id="second">
-         <span className="dropdown3 "> {selectedOptionAct} </span>
-        </div>
-     
-         </div>
-         <div class="col-sm-3.5"> 
+        <div className="row">
+          <div className="col-sm-3">
+            <Dropdown id="first">
+              <Dropdown.Toggle id="dropdown-custom-1" className="btn btn-secondary dropdown3">
+                Select Act
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown1">
+                <Dropdown.Item
+                  className="playTitles"
+                  onClick={() => {
+                    setSelectedOptionAct('All Acts');
+                    setSelectedOption3('all');
+                  }}
+                >
+                  All Acts
+                </Dropdown.Item>
+                {actList.map((val, counter) => {
+                  let praksis = romanize(val.Section);
+                  return (
+                    <div key={counter}>
+                      <Dropdown.Item
+                        className="playTitles"
+                        onClick={() => {
+                          setSelectedOptionAct(praksis);
+                          setSelectedOption3(praksis);
+                        }}
+                      >
+                        {praksis}
+                      </Dropdown.Item>
+                    </div>
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>{' '}
+            <div className="pd-left border1" id="second">
+              <span className="dropdown3"> {selectedOptionAct} </span>
+            </div>
+          </div>
+          <div className="col-sm-3.5">
+            <Dropdown id="first">
+              <Dropdown.Toggle id="dropdown-custom-1" className="btn btn-secondary dropdown3">
+                Select Scene
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown1">
+                <Dropdown.Item
+                  className="playTitles"
+                  onClick={() => {
+                    setSelectedOptionScene('All Scenes');
+                    setSelectedOption4('all');
+                  }}
+                >
+                  All Scenes
+                </Dropdown.Item>
+                {sceneList.map((val, counter) => {
+                  return (
+                    <div key={counter}>
+                      <Dropdown.Item
+                        className="playTitles"
+                        onClick={() => {
+                          setSelectedOptionScene(val.Chapter);
+                          setSelectedOption4(val.Chapter);
+                        }}
+                      >
+                        {val.Chapter}
+                      </Dropdown.Item>
+                    </div>
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>{' '}
+            <div className="pd-left border1" id="second">
+              <span className="dropdown3"> {selectedOptionScene} </span>
+            </div>
+          </div>
 
-         <Dropdown id="first" >
-        <Dropdown.Toggle id="dropdown-custom-1" className="btn btn-secondary dropdown3" >Select Scene</Dropdown.Toggle>
-        <Dropdown.Menu className="dropdown1 ">
-        <Dropdown.Item className= 'playTitles' onClick={ () => {setSelectedOptionScene("All Scenes"); setSelectedOption4("all")}}>All Scenes</Dropdown.Item>
-
-      {sceneList.map( (val,counter)=> {
-        
-          return <div>
-           
-            <Dropdown.Item className= 'playTitles' key={counter}  onClick={ () => {setSelectedOptionScene(val.Chapter); setSelectedOption4(val.Chapter)}}
-            >{val.Chapter}</Dropdown.Item> </div>
-           
-        })}
-        
-         </Dropdown.Menu>
-         </Dropdown>{' '}
-      
-         <div className="pd-left border1" id="second">
-         <span className="dropdown3 "> {selectedOptionScene} </span>
-        </div>
-        
-
-         </div>
-
-         <div className="col-sm-5">
-           <div className="pd-left2">
-         <Form inline onSubmit={onFormSubmit}>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2 center4 dropdown3 " onChange={onInput} value={value}/>
-              <Button onClick={ () => setSearchedWord(value)} variant="outline-info btn-secondary btn searchButton dropdown3">Search</Button>
-    
+          <div className="col-sm-5">
+            <div className="pd-left2">
+              <Form inline onSubmit={onFormSubmit}>
+                <FormControl
+                  type="text"
+                  placeholder="Search"
+                  className="mr-sm-2 center4 dropdown3"
+                  onChange={onInput}
+                  value={value}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      onFormSubmit(e);
+                    }
+                  }}
+                />
+                <Button
+                  onClick={() => setSearchedWord(value)}
+                  variant="outline-info btn-secondary btn searchButton dropdown3"
+                >
+                  Search
+                </Button>
               </Form>
-         </div>
-         </div>
-       
-         </div>
-         <hr color= "#7a1818"></hr>
-         <br></br>
-         <table className="table mg-left">
-     <thead className="thBGColor" >
-      <tr>
-        <th className="thColor" scope="col">#</th>
-        <th className="thColor" scope="col">Title</th>
-        <th className="thColor" scope="col">Scene</th>
-        <th className="thColor" scope="col">Character</th>
-        <th className="thColor" scope="col">English Text</th>
-        <th className="thColor" scope="col">Greek Text</th>
-      </tr>
-    </thead>
-    <tbody>
-      {searchResults.map( (val,counter)=> {
-        let translator="";
-        let textGr=val.TextGr;
-        textGr= textGr.replace(/\[p]/g, '\n');
-        let textEn=val.TextEn;
-        textEn= textEn.replace(/\[p]/g, '\n');
-        let praksis=romanize(val.Section);
-        // let regex = new RegExp('('+searchedWord+')', 'ig');
-        // text = text.replace(regex, '<span class="highlight">$1</span>');
-        // let cell;
-        // cell=document.querySelector('#cell')
-        // cell.innerHTML = text
-       
-        return <tr>
-          <th scope="row">{counter}</th>
-          <td>{val.Title}-{val.Translator}</td>
-          <td>{praksis},{val.Chapter}</td>
-          <td>{val.Char}</td>
-          <td><div id="cell">{getHighlightedText(textEn,searchedWord)}</div></td>
-          <td><div id="cell">{getHighlightedText(textGr,searchedWord)}</div></td>
-     
-      
-        </tr>
-      }    
-    )}
-      </tbody>
-    </table>
-        
-     </div>
-     </div>
+            </div>
+          </div>
+        </div>
+        <hr color="#7a1818"></hr>
+        <br></br>
+        <table className="table mg-left">
+          <thead className="thBGColor">
+            <tr>
+              <th className="thColor" scope="col">
+                #
+              </th>
+              <th className="thColor" scope="col">
+                Title
+              </th>
+              <th className="thColor" scope="col">
+                Scene
+              </th>
+              <th className="thColor" scope="col">
+                Character
+              </th>
+              <th className="thColor" scope="col">
+                English Text
+              </th>
+              <th className="thColor" scope="col">
+                Greek Text
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {searchResults.map((val, counter) => {
+              let textGr = val.TextGr.replace(/\[p]/g, '\n');
+              let textEn = val.TextEn.replace(/\[p]/g, '\n');
+              let praksis = romanize(val.Section);
 
-   )
-}
-
-
+              return (
+                <tr key={counter}>
+                  <th scope="row">{counter}</th>
+                  <td>{val.Title + '-' + val.Translator}</td>
+                  <td>{praksis + ',' + val.Chapter}</td>
+                  <td>{val.Char}</td>
+                  <td>
+                    <div id="cell">{getHighlightedText(textEn, searchedWord)}</div>
+                  </td>
+                  <td>
+                    <div id="cell">{getHighlightedText(textGr, searchedWord)}</div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
 
 const Upload = () => {
 
@@ -1160,88 +1099,6 @@ const upload = (e) => {
   );
 }
 
-
-// function useAuthenticate({ username, password}){
-
-//   const [loginStatus,setLoginStatus] = useState("");
-
-//   useEffect(() => {
-//     const authenticate = async () => {
-//       const message = await Axios.post('http://localhost:3001/api/login',{ username:username,password:password});
-//       setLoginStatus(message);
-//     }
-
-//     authenticate();
-//   }, []);
-
-//   return loginStatus;
-// };
-
-// const SignIn = () => {
-//   const [username,setUsername]=useState("");
-//   const [password,setPassword]=useState("");
-  
-//   function login() {
-//     const authenticated = useAuthenticate(username, password);
-
-//     if(authenticated === ""){
-//       const history = useHistory();
-//       history.push("/search");
-//     }
-//   }
-
-  // const login =() => {
-  //   Axios.post('http://localhost:3001/api/login',{
-  //     username:username,
-  //     password:password
-  //   }).then((response) => {
-  //     if (response.data.message){
-  //       setLoginStatus(response.data.message)
-  //     }
-  //     else{
-  //       const history = useHistory();
-  //       history.push("/search");
-  //       // here username and password are confirmed
-  //       //enter code here to access Routes
-  //     }
-  //   });
-  //   }
-  // var token=true;
-
-  //  return (
-  //   <div>
-  //     <div className="title-1"><img src="logo.png"></img></div>
-  //       <h4 className="title-2">Tanslated William Shakespeare Plays</h4>
-  //       <hr color= "#7a1818"></hr>
-  //     <br></br>
-  //       <h3 className="center2">Login</h3>
-  //       <div className="center3"> 
-       
-  //       <input
-  //         type="text"
-  //         placeholder="Username"
-  //         onChange={(e) => {
-  //           setUsername(e.target.value);
-  //         }}
-  //         />
-          
-  //          <input className="mg-left"
-  //         type="password"
-  //         placeholder="Password"
-  //         onChange={(e) => {
-  //           setPassword(e.target.value);
-  //         }}
-  //         />
-        
-  //         <button onClick={login} className="mg-left2 btn btn-secondary">Login</button>
-  //         </div>
-  //         <br></br>
-  //         <br></br>
-  //         <h3 className="center2">{loginStatus}</h3>
-  //   </div>
-
-  //  );
-  // }
 
 
    const App =() => {
